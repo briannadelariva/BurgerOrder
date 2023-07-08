@@ -1,0 +1,99 @@
+/*
+Brianna De La Riva
+02 July 2023
+This is a Burger Order program for Java. This program will take provide options for a burger order and display the order summary at the end based upon the choices given. */
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Burger:");
+        System.out.println("1. Beef");
+        System.out.println("2. Plant Based");
+        System.out.print("Enter your choice (1 or 2): ");
+        int burgerChoice = getUserChoice(scanner, 1, 2);
+          /*Above asks user for input regarding burger meat - plant or beef. The user must answer either 1 or 2, if invalid (another integer or a letter/symbol) gets input - then it displays an invalid message and prompts user to try again with given choice. */
+        System.out.println("Cheese:");
+        System.out.print("Cheese or No Cheese? (Enter C for Cheese or N for No Cheese): ");
+        String cheeseChoice = getValidStringChoice(scanner, "C", "N");
+        /* Similar situation occurs for asking user cheese preferences - if given options are not selected, it displays the invalid message and reprompts question choices */
+        String cheeseType = "";
+        if (cheeseChoice.equalsIgnoreCase("C")) {
+            System.out.println("1. American");
+            System.out.println("2. Havarti");
+            System.out.print("Enter your choice (1 or 2): ");
+            int cheeseTypeChoice = getUserChoice(scanner, 1, 2);
+
+            if (cheeseTypeChoice == 1) {
+                cheeseType = "American";
+            } else if (cheeseTypeChoice == 2) {
+                cheeseType = "Havarti";
+            }
+        }
+
+        System.out.println("Side:");
+        System.out.println("1. French Fries");
+        System.out.println("2. Hashbrown Patty");
+        System.out.print("Enter your choice (1 or 2): ");
+        int sideChoice = getUserChoice(scanner, 1, 2);
+
+        /*Once all selections are made and order is complete - the program will print out all of the choices and selections the user made as an order summary based on their previous choices.*/ 
+        System.out.println("Order Summary:");
+        System.out.println("Burger:");
+        if (burgerChoice == 1) {
+            System.out.println("Beef");
+        } else if (burgerChoice == 2) {
+            System.out.println("Plant Based");
+        }
+
+        System.out.println("Cheese:");
+        if (cheeseChoice.equalsIgnoreCase("C")) {
+            System.out.println(cheeseType);
+        } else {
+            System.out.println("No Cheese");
+        }
+
+        System.out.println("Side:");
+        if (sideChoice == 1) {
+            System.out.println("French Fries");
+        } else if (sideChoice == 2) {
+            System.out.println("Hashbrown Patty");
+        }
+    }
+    /*Below is the code to ensure user selects between the given options above for their burger order, if not followed, it will display the below error message and retry. */
+    private static int getUserChoice(Scanner scanner, int minChoice, int maxChoice) {
+        int choice;
+        while (true) {
+            if (scanner.hasNextInt()) {
+                choice = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                if (choice >= minChoice && choice <= maxChoice) {
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter a valid choice between " + minChoice + " and " + maxChoice + ".");
+                }
+            } else {
+                scanner.nextLine(); // Utilize the invalid input
+                System.out.println("Invalid input. Please enter a valid choice between " + minChoice + " and " + maxChoice + ".");
+            } /*This is the error/invalid message if choices are not properly selected */
+        }
+        return choice;
+    }
+
+    private static String getValidStringChoice(Scanner scanner, String validChoice1, String validChoice2) {
+        String choice;
+        while (true) {
+            choice = scanner.nextLine().toUpperCase();
+
+            if (choice.equals(validChoice1) || choice.equals(validChoice2)) {
+                break;
+            } else {
+                System.out.println("Invalid input. Please enter either '" + validChoice1 + "' or '" + validChoice2 + "'.");
+            } /*This is the error/invalid message if choices are not properly selected */
+        }
+        return choice;
+    }
+}
